@@ -1,0 +1,67 @@
+> What data types do each of these values represent?
+A: 	
+"A Clockwork Orange”: string
+42: integer
+09/02/1945: date
+98.7: float
+$15.99: float
+
+> Explain when a database would be used. Explain when a text file would be used. A:
+Database should be used for datasets that requires search for specific data, handling multiple applications accessing the data, and persisting beyond the end of a particular application process.
+
+A text file is good for application which allow the data to persist beyond the end of the program
+
+>Describe one difference between SQL and other programming languages.
+
+A: Unlike many programming languages that I have probably used, SQL is a declarative rather than a procedural language 
+> In your own words, explain how the pieces of a database system fit together at a high level.
+
+A: A database is an application that allows users to manage data through an interface. The interface might be a command line or a GUI. It's also possible to set up a database as an application on a server, so another machine can send requests through the server to get data. Many web APIs work this way.
+
+Databases store data in a binary file format. Unlike text files, the database files are not readable by humans. Within the files are specialized structures that allow the database system to quickly read and change data. Let's discuss how data is stored.
+
+> Explain the meaning of table, row, column, and value.
+
+A: Databases display data in a way using a table structure with columns that define what the data represents and rows that make up a complete conceptual unit. Each "cell" in a table (the intersection of the column and row) contains a particular value-some piece of information that the column name describes. 
+> List three data types that can be used in a table.
+
+A: string, integer, float 
+> Given this payments table, provide an English description of the following queries and include their results:
+
+A: 
+1 - show all the rows for Date and Amount columns from the payments table
+Results: 
+Date		Amount	
+5/1/2016	1500.00	
+5/10/2016	37.00	
+5/15/2016	124.93	
+5/23/2016	54.72	
+
+2 - show all the rows for the Amount columns from the payments table where the value of the amount of the cell is larger than 500 
+Results:  Amount	
+1500.00	
+
+3 - show all the rows and columns from the payment table where the value of the payee cell is “Mega Foods” (Show all Mega foods’ payments)
+Results:
+Date	Payee	Amount	Memo
+5/15/2016	Mega Foods	124.93	Groceries
+
+> Given this users table, write SQL queries using the following criteria and include the output:
+A:
+
+The email and sign-up date for the user named DeAndre Data:
+
+select email,signup
+from users
+where name = “DeAndre Data”
+
+The user ID for the user with email 'aleesia.algorithm@uw.edu'.
+
+select userid
+from users
+where email = “aleesia.algorithm@uw.edu”
+
+All the columns for the user ID equal to 4.
+
+select * from users
+where userid = 4
