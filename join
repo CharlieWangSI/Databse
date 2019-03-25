@@ -1,0 +1,145 @@
+Submit your answers to the following questions.
+
+NOTE: Real-world examples must be your own and not based on the text or previous assignments.
+
+> How do you find related data held in two separate data tables?
+A:
+a SQL JOIN clause combines two tables into one. Doing this is helpful for pulling related data from multiple tables. A JOIN outputs a results table with some information from each table. This table shows as output in your SQL console
+
+> Explain, in your own words, the difference between an INNER JOIN, LEFT OUTER JOIN, and RIGHT OUTER JOIN. Give a real-world example for each.
+A: 
+EX:
+worker table: 
+id name department department_id
+———————————————————————————————————
+001 Lisa HR 001
+002 Charlie Finance 002
+003 Tom Finance 002
+004 Sam Tech 003
+
+department table:
+department_id name pay
+——————————————————————
+001 HR $13000
+002 Finance $14000
+003 Tech $15000
+004 Sales $17000
+
+Inner join: The default join is the INNER JOIN. Inner join includes rows that are both in table1 and table2.
+
+Select worker.name,department.pay from worker join department on worker.department_id=department.id
+
+Output: 
+name pay
+————————
+Lisa $13000
+Charlie $14000
+Tom $14000
+Sales $17000
+
+Left join: First, SQL performs an INNER JOIN to find common rows between table1 and table2, then for each row in table1 that does not satisfy the join condition with any row in table2, SQL adds a new row to the result with null values in the columns of table2. The output includes all rows from the table to the left of the comparison operator. 
+
+Select worker.name,department.pay from worker left outer join department on worker.department_id=department.id
+
+Output:
+name pay
+————————
+Lisa $13000
+Charlie $14000
+Tom $14000
+Sales $17000
+
+Right join: First, an INNER JOIN is performed. Then, for each row in table2 that does not meet the join condition with any row in table1, a joined row is added to the resulting table with null values in columns of table1. The output includes all rows from the table to the right of the comparison operator.
+
+Select worker.name,department.pay from worker right outer join department on worker.department_id=department.id
+
+Output:
+name pay
+————————
+Lisa $13000
+Charlie $14000
+Tom $14000
+null $17000
+
+
+> Define primary key and foreign key. Give a real-world example for each.
+A:
+Primary key: A unique identifier for each row in a database table.
+Foreign key: The primary key of one table that is included as a non-unique attribute in another table.
+Using worker,department table as example: worker.id is primary key for worker, and worker.department_id is a foreign key
+
+> Define aliasing.
+A: The technique of creating short variable names, usually a single letter, to replace the table name in a query.
+
+> Change this query so that you are using aliasing:
+A:
+SELECT p.name, c.salary,
+c.vacation_days FROM professor as p JOIN
+compensation as c ON p.id =
+c.professor_id;
+
+> Why would you use a NATURAL JOIN? Give a real-world example.
+A:
+NATURAL is a shorthand form of USING. It forms a USING list consisting of only the column names that appear in both input tables. These columns appear only once in the output table.
+
+Using the worker,department as example:
+SELECT * FROM worker NATURAL JOIN department;
+
+Output: 
+department_id name 
+——————————————————————
+001 HR
+002 Finance 
+003 Tech 
+004 Sales 
+
+> Using this Employee schema and data, write queries to find the following information:
+> List all employees and all shifts.
+A: 
+select employees.name,shifts.date,shifts.start_time, shifts.end_time
+from employees join shifts on employees.id=shifts.id
+
+> Using this Adoption schema and data, please write queries to retrieve the following information and include the results:
+
+> Create a list of all volunteers. If the volunteer is fostering a dog, include each dog as well.
+A: 
+select volunteers.first_name,volunteers.last_name,dogs.name from volunteers left outer join dogs on volunteers.foster_dog_id = dogs.id;
+
+> The cat's name, adopter's name, and adopted date for each cat adopted within the past month to be displayed as part of the "Happy Tail" social media promotion which posts recent successful adoptions.
+
+A: 
+select cats.name as cats_name,adopters.last_name as adopters_last_name,adopters.first_name as adopters_first_name,cat_adoptions.date from cats join cat_adoptions on cats.id=cat_adoptions.cat_id join adopters on cat_adoptions.adopter_id = adopters.id;
+where DATEDIFF(day,cats.intake_date,CURDATE()) < 30;
+
+> Create a list of adopters who have not yet chosen a dog to adopt.
+A:
+select adopters.last_name as adopters_last_name,adopters.first_name as adopters_first_name from adopters except 
+select adopters.last_name as adopters_last_name,adopters.first_name as adopters_first_name from adopters join dog_adoptions on dog_adoptions.adopter_id = adopters.id join dogs on dogs.id=dog_adoptions.dog_id
+
+> Lists of all cats and all dogs who have not been adopted.
+A:
+select cats.name as names from cats
+except
+select cats.name from cats join cat_adoptions on cat_adoptions.adopter_id=cats.id 
+union
+select dogs.name as names from dogs
+except 
+select dogs.name from dogs join dog_adoptions on dog_adoptions.adopter_id=dogs.id 
+
+> The name of the person who adopted Rosco.
+A: 
+select adopters.first_name, adopters.last_name from adopters join dog_adoptions on adopters.id=dog_adoptions.adopter_id join dogs on dogs.id=dog_adoptions.dog_id
+where dogs.name = 'Rosco'
+union
+select adopters.first_name, adopters.last_name from adopters join cat_adoptions on adopters.id=cat_adoptions.adopter_id join cats on cats.id=cat_adoptions.cat_id
+where cats.name = 'Rosco'
+
+> Using this Library schema and data, write queries applying the following scenarios and include the results:
+
+> To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making".
+A:
+select patrons.name, holds.rank from patrons join holds on patrons.id=holds.patron_id order by holds.rank
+
+> List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
+A:
+select patrons.name, books.title from patrons join transactions on patrons.id=transactions.patron_id join books on books.isbn=transactions.isbn 
