@@ -1,0 +1,179 @@
+Answer the following questions and submit the responses.
+
+> Write out a generic SELECT statement.
+A:
+SELECT <column1, column2, ... *>
+    FROM <table1, table2 ...>
+    <optional: WHERE <condition>>
+
+> Create a fun way to remember the order of operations in a SELECT statement, such as a mnemonic.
+A:
+I come up with Sharks Fight Jellyfish With Guns Hide On Land, which stands for Select, From, Join, Where, Group, Having, Order, Limit
+
+
+> Given this dogs table, write queries to select the following pieces of data:
+
+Intake teams typically guess the breed of shelter dogs, so the breed column may have multiple words (for example, "Labrador Collie mix").
+
+> Display the name, gender, and age of all dogs that are part Labrador.
+A:
+select name,gender,age
+from dogs
+where breed like '%labrador%';
+
+> Display the ids of all dogs that are under 1 year old.
+A:
+select id
+from dogs
+where age<1;
+
+> Display the name and age of all dogs that are female and over 35lbs.
+A:
+select name,age
+from dogs
+where gender='F' and weight>35;
+
+> Display all of the information about all dogs that are not Shepherd mixes.
+A:
+select *
+from dogs
+where breed not like '%shepherd%';
+
+> Display the id, age, weight, and breed of all dogs that are either over 60lbs or Great Danes.
+A:
+select id,weight,age,breed
+from dogs
+where weight>60 or breed='great dane';
+
+> Given this cats table, what records are returned from these queries?
+
+> SELECT name, adoption_date FROM cats;
+A: 
+**Schema (PostgreSQL v9.6)**
+
+    CREATE TABLE cats(
+      "id"            INTEGER,
+      "name"          VARCHAR(16),
+      "gender"        VARCHAR(1),
+      "age"           INTEGER,
+      "intake_date"   DATE,
+      "adoption_date" DATE
+    );
+        
+    INSERT INTO cats
+        ("id", "name",   "gender", "age", "intake_date", "adoption_date")
+    VALUES
+        ( 1, 'Mushi',    'M',       1,    '2016-01-09',  '2016-03-22'),
+        ( 2, 'Seashell', 'F',       7,    '2016-01-09',   NULL),
+        ( 3, 'Azul',     'M',       3,    '2016-01-11',  '2016-04-17'),
+        ( 4, 'Victoire', 'M',       7,    '2016-01-11',  '2016-09-01'),
+        ( 5, 'Nala',     'F',       1,    '2016-01-12',   NULL);
+    
+
+---
+
+**Query #1**
+
+    SELECT name, adoption_date FROM cats;
+
+| name     | adoption_date            |
+| -------- | ------------------------ |
+| Mushi    | 2016-03-22T00:00:00.000Z |
+| Seashell |                          |
+| Azul     | 2016-04-17T00:00:00.000Z |
+| Victoire | 2016-09-01T00:00:00.000Z |
+| Nala     |                          |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/55ePhx9NLn7PzdGnebFaG7/0)
+
+> SELECT name, age FROM cats;
+A:
+
+**Query #2**
+
+    SELECT name, age FROM cats;
+
+| name     | age |
+| -------- | --- |
+| Mushi    | 1   |
+| Seashell | 7   |
+| Azul     | 3   |
+| Victoire | 7   |
+| Nala     | 1   |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/55ePhx9NLn7PzdGnebFaG7/0)
+
+> From the cats table, write queries to select the following pieces of data.
+> Display all the information about all of the available cats.
+A: SELECT * FROM cats;
+
+>Display the name and sex of all cats who are 7 years old.
+A: SELECT name,gender
+FROM cats
+where age=7;
+
+> Find all of the names of the cats, so you don’t choose duplicate names for new cats.
+A:
+SELECT distinct name
+FROM cats;
+
+> List each comparison operator and explain when you would use it. Include a real world example for each.
+A: 
+Using the Cat database as an example:
+<: condition is true when the cell is smaller than another variable
+
+SELECT name,gender
+FROM cats
+where age<7;
+
+>: condition is true when the cell is larger than another variable
+
+SELECT name,gender
+FROM cats
+where age>7;
+
+>=:condition is true when the cell is larger than or equal to another variable
+
+SELECT name,gender
+FROM cats
+where age>=7;
+
+<=: condition is true when the cell is smaller than or equal to another variable
+
+SELECT name,gender
+FROM cats
+where age<=7;
+
+!=: condition is true when the cell is not equal to another variable
+
+SELECT name,gender
+FROM cats
+where age!=7;
+
+=: condition is true when the cell is equal to another variable
+
+SELECT name,gender
+FROM cats
+where age=7;
+
+Like: If we can only remember part of a string, we can use the LIKE operator in the WHERE clause. With the LIKE operator, we use the % within the string to determine where we expect the partial match
+
+SELECT name,gender
+FROM cats
+where breed LIKE '%Bartholomew%';
+
+> If you can’t list these from memory, do these flashcards until you can!
+> From the cats table, what data is returned from these queries?
+SELECT name FROM cats WHERE gender = ‘F’;
+A:
+return all cats’ names whose female 
+> SELECT name FROM cats WHERE age <> 3;
+A:
+return all cats’ name who’s age is not 3 
+>SELECT ID FROM cats WHERE name != ‘Mushi’ AND gender = ‘M’;
+A:
+return all cats’ IDs whose name is not ‘Mushi’ and whose gender is male
