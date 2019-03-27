@@ -8,7 +8,8 @@ SELECT <column1, column2, ... *>
 
 > Create a fun way to remember the order of operations in a SELECT statement, such as a mnemonic.
 A:
-The order of operations in a SELECT statement is left to right unless denoted by parenthesis, similar to reading math operations.
+I come up with Sharks Fight Jellyfish With Guns Hide On Land, which stands for Select, From, Join, Where, Group, Having, Order, Limit
+
 
 > Given this dogs table, write queries to select the following pieces of data:
 
