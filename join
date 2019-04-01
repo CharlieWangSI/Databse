@@ -142,4 +142,6 @@ select patrons.name, holds.rank from patrons join holds on patrons.id=holds.patr
 
 > List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
 A:
-select patrons.name, books.title from patrons join transactions on patrons.id=transactions.patron_id join books on books.isbn=transactions.isbn 
+select patrons.name, books.title 
+from patrons join transactions on patrons.id=transactions.patron_id join books on books.isbn=transactions.isbn 
+WHERE transactions.checked_in_date IS NULL
